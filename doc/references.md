@@ -1,7 +1,7 @@
 # 龍伯事典 — 文獻參考資料
 
-> 整理日期：2026-02-23
-> 用途：世界觀設定之神話學、地理學、考古學文獻基底
+> 整理日期：2026-02-23（持續更新）
+> 用途：世界觀設定之神話學、地理學、考古學文獻基底；遊戲機制參考
 
 ---
 
@@ -258,6 +258,63 @@
 
 - **連結**：[知乎](https://zhuanlan.zhihu.com/p/221965681)
 - **摘要**：以故事形式講述龍伯釣鰲典故的來龍去脈，附帶成語出處與後世引用。
+
+---
+
+## 七、桌遊機制參考
+
+### 28. Cthulhu: Death May Die — 基礎版規則書
+
+- **出版**：CMON (Cool Mini Or Not)
+- **設計師**：Rob Daviau, Eric M. Lang
+- **規則書 PDF**：
+  - [CMON 官方](https://resources.cmon.com/DMD_Rulebook_web.pdf)
+  - [1jour-1jeu 備份](https://cdn.1j1ju.com/medias/e1/c4/90-cthulhu-death-may-die-rulebook.pdf)
+  - [Order of Gamers 精簡版 v1.2](https://www.orderofgamers.com/downloads/CthulhuDeathMayDie_v1.2.pdf)
+- **BGG 頁面**：[BoardGameGeek](https://boardgamegeek.com/boardgame/253344/cthulhu-death-may-die)
+- **摘要**：克蘇魯主題合作恐怖桌遊。核心機制包含：
+  - **模組化版圖**：17 張雙面地圖板塊（tiles），依劇本卡（episode card）指示排列，每張板塊含 1-3 個空間（spaces），以牆壁和通道箭頭定義連接性
+  - **行動點系統**：每回合 3 個行動（移動、攻擊、休息、交易、劇本特殊行動）
+  - **骰子系統**：黑色基礎骰 + 綠色加成骰，四種面（成功/遠古印記/觸手/空白），可消耗壓力重擲
+  - **發現卡（Discovery Cards）**：每劇本 15 張，進入安全空間時抽取，提供敘事遭遇與道具
+  - **神話卡（Mythos Cards）**：每劇本 8 張，驅動事件節奏與舊日支配者推進
+  - **瘋狂機制**：觸手擲出消耗理智值，達閾值後觸發瘋狂卡，獲得永久效果與技能升級
+  - **勝負條件**：破壞儀式使舊日支配者現身後擊敗之為勝；全員死亡/瘋狂或召喚軌推進至盡頭為敗
+- **參考價值**：模組化版圖設計（板塊拼接生成地圖）、劇本驅動的可重玩性、發現卡的敘事探索機制
+
+---
+
+### 29. Cthulhu: Death May Die – Fear of the Unknown（第三季 / 獨立擴充）
+
+- **出版**：CMON
+- **規則書 PDF**：
+  - [CMON 官方（WIP 版）](https://resources.cmon.com/DMD-S3-WIP-Rulebook.pdf)
+  - [CMON 正式版](https://cmon-files.s3.amazonaws.com/pdf/assets_item/resource/504/DMD006-Rulebook.pdf)
+- **BGG 頁面**：[BoardGameGeek](https://boardgamegeek.com/boardgame/373600/cthulhu-death-may-die-fear-of-the-unknown)
+- **Kickstarter**：[募資頁面](https://www.kickstarter.com/projects/cmon/dmd-fear-of-the-unknown)
+- **台灣代理募資**：[挖貝 WaBay](https://wabay.tw/projects/cthulhudeathmaydie-fearoftheunknown?locale=zh-TW)
+- **評測**：[Player Elimination Review (2025)](https://playerelimination.com/2025/02/10/staring-back-at-madness-a-cthulhu-death-may-die-fear-of-the-unknown-review/)
+- **FAQ**：[CMON 官方 FAQ v2.0](https://www.cmon.com/wp-content/uploads/2023/06/DMD-FAQ_v2.0.pdf)
+- **摘要**：基礎版的獨立擴充，新增兩大機制：
+  - **未知怪物（Unknown Monsters）**：隨機抽取怪物卡加入任何劇本，作為額外威脅與難度調節器。可與任何版本的劇本混搭使用
+  - **遺物（Relics）**：開局選取神秘道具，提供持續性能力，在瘋狂值達第三階段後增強。與特定調查員有協同效果
+  - 包含 6 個新劇本、2 個新舊日支配者、10 個調查員面板、46 個塑膠模型
+- **參考價值**：
+  - 「抽卡加入隨機元素到既有地圖」的模組化設計思路
+  - 遺物系統（持續性道具 + 狀態連動增強）可對應我們的「武學碎片」概念
+  - 未知怪物的隨機混搭機制 → 可應用於地層探索的隨機事件生成
+
+---
+
+### 30. Cthulhu: Death May Die — 線上規則參考
+
+- **完整規則（圖文）**：[Ultra Board Games](https://www.ultraboardgames.com/cthulhu-death-may-die/game-rules.php)
+- **板塊與空間規則**：[Dized Rules](https://rules.dized.com/game/kp6yXekcT6agDFGangIB1Q/kfhj_Bn2QDSyqdjZRGS_xg/tiles-and-spaces)
+- **綜合評測**：
+  - [Tabletop Bellhop Review](https://tabletopbellhop.com/game-reviews/cthulhu-death-may-die-review/)
+  - [Co-op Board Games Review](https://coopboardgames.com/cooperative-board-game-reviews/cthulhu-death-may-die-review/)
+  - [The Solo Meeple - First Thoughts](https://thesolomeeple.com/2021/10/19/first-thoughts-just-another-lovecraft-game/)
+- **摘要**：各平台的規則整理與評測文章。Dized 提供互動式規則查閱，Ultra Board Games 提供完整圖文規則。評測文章提供實際遊玩體驗與機制優缺分析。
 
 ---
 
