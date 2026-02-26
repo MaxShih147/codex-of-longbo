@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "bgg": {
+      "command": "node",
+      "args": ["mcp/bgg-server.mjs"],
+      "cwd": "/Users/max_server/repo_claude/codex-of-longbo"
+    }
+  }
+}
