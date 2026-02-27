@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>龍伯事典 — Phase 1</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a2e;
+    overflow: hidden;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    user-select: none;
+  }
+  canvas {
+    display: block;
+    cursor: grab;
+  }
+  canvas.placing { cursor: crosshair; }
+  canvas.grabbing { cursor: grabbing; }
+  #hud {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    color: #c8b88a;
+    font-size: 14px;
+    pointer-events: none;
+    line-height: 1.6;
+  }
+  #controls {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    color: #887755;
+    font-size: 12px;
+    text-align: right;
+    pointer-events: none;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div id="hud"></div>
+<div id="controls">
+  R — 旋轉板塊<br>
+  滾輪 — 縮放<br>
+  拖拽 — 平移<br>
+  點擊手牌 — 選取<br>
+  點擊棋盤 — 放置
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

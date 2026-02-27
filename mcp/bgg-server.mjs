@@ -14,7 +14,9 @@ const BGG_API = "https://boardgamegeek.com/xmlapi2";
 // --- helpers ---
 
 async function fetchXml(url) {
-  const res = await fetch(url);
+  const res = await fetch(url, {
+    headers: { "User-Agent": "CodexOfLongbo-MCP/1.0" },
+  });
   if (!res.ok) throw new Error(`BGG API error: ${res.status}`);
   return await res.text();
 }

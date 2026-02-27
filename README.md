@@ -2,7 +2,7 @@
 
 > 殘局之後，廢土之上，一位錄事踏入地底，尋找武學的真正起源。
 
-AI 驅動的後末日武俠文字 RPG，以 Claude API 即時生成敘事與遊戲邏輯。
+AI 驅動的後末日武俠探索遊戲，以板塊拼放生成地圖、Claude API 即時生成敘事。
 
 ---
 
@@ -58,49 +58,26 @@ AI 驅動的後末日武俠文字 RPG，以 Claude API 即時生成敘事與遊�
 
 ### 核心定義
 
-AI-driven Interactive Fiction / AI Text RPG / TUI RPG
+單人板塊拼放探索遊戲。從城鎮出發，逐張翻開地形板塊、拼出前往崩心的路徑，每塊探明的板塊都帶來一段 AI 生成的敘事。
 
 ### 玩法模式
 
-- **混合模式**：探索時自由輸入，戰鬥/事件時切換成選項 + 數值系統
-- **DnD 武俠風格**：屬性、判定、自由行動 + 關鍵時刻選項分支
-- **AI 即時生成**：文本由 Claude API 驅動，非預寫內容
+- **板塊拼放**：六角板塊，邊緣顏色匹配（裂色為萬用）
+- **卡牌驅動**：手牌選取、旋轉、放置
+- **AI 敘事**：Claude API 驅動的動態文本（規劃中）
 
 ### 故事推進結構
 
 - **地層制為骨架** — 「越深越危險越古老」的大方向
 - **每層內部自由探索** — 網絡制的輕量版，線索互相連結但範圍限定在該層
-- **穿插委託單元劇** — NPC 或發現觸發，有頭有尾的小故事弧（「壬課制」— 調查某位大師的死亡/失蹤）
+- **穿插委託單元劇** — NPC 或發現觸發，有頭有尾的小故事弧
 - **跨層線索** — 某些線索貫穿多層，形成主線推進感
-
-### 武學拼圖系統
-
-找到的不是完整秘笈，而是碎片。例：3 頁降龍掌 + 2 頁不明心法 = 玩家自己拼出一套殘缺但獨特的武功。
-
-### 資源稀缺
-
-- 藥材、食物、乾淨水源都很珍貴
-- 每個門派遺址都是一個 dungeon，有機關、殘留的守護、和深藏的秘密
 
 ### 輸入設計
 
-- 大部分時候給 AI 動態生成的選項（按數字鍵即可）
-- 永遠保留自由輸入行
-- 快捷指令：`/看`、`/包`、`/查 [線索名]`、`/話 [NPC名]`
-- **95% 按數字鍵，5% 自由輸入**
-
-### 戰鬥模式
-
-- 顯示敵人資訊
-- 選項：攻擊（選武功）、防禦、使用物品、逃跑
-- 數值計算由 AI 參考玩家/敵人屬性進行
-
-### 存檔系統
-
-- 自動存檔：每回合結束後
-- 手動存檔：多欄位
-- 格式：JSON（GameState 直接 serialize）
-- 位置：`~/.wuxia-game/saves/`
+- 數字鍵選手牌、R 旋轉、左鍵放置/行走
+- 右鍵拖拽旋轉攝影機、滾輪縮放、中鍵平移
+- Esc 取消選取
 
 ---
 
@@ -108,201 +85,137 @@ AI-driven Interactive Fiction / AI Text RPG / TUI RPG
 
 ### Tech Stack
 
-| 用途 | 套件 |
+| 用途 | 技術 |
 |------|------|
-| 語言 | Python |
-| TUI 介面 | `textual`（基於 rich 的 async TUI 框架） |
-| Claude API | `anthropic`（官方 Python SDK） |
-| 資料模型 | `pydantic` |
-| 存檔 | JSON 檔案 |
-| 套件管理 | `pyproject.toml` + `pip` |
-| 預設模型 | `claude-sonnet-4-6`（可切換 `claude-opus-4-6`） |
+| 引擎 | Godot 4.6（GDScript） |
+| 渲染 | Forward+ 3D（六角柱 SurfaceTool mesh） |
+| AI 整合 | Claude API + tool_use（規劃中） |
+| 存檔 | JSON |
+| 目標平台 | Steam macOS |
 
 ### 專案結構
 
 ```
 codex-of-longbo/
-├── pyproject.toml
-└── src/
-    └── wuxia/
-        ├── __init__.py
-        ├── main.py        # 入口 (python -m wuxia)
-        ├── app.py         # Textual TUI 應用程式
-        ├── widgets.py     # 自訂 UI 元件
-        ├── engine.py      # 遊戲引擎 (回合處理、狀態轉換)
-        ├── models.py      # Pydantic 資料模型
-        ├── ai.py          # Claude API 整合 (streaming + tool_use)
-        ├── prompts.py     # System prompt 與武俠世界觀設定
-        └── saves.py       # 存檔/讀檔
+├── CLAUDE.md               # 專案上下文（給 AI 助手）
+├── README.md               # 本文件
+├── godot/                  # Godot 4 專案（當前主力）
+│   ├── project.godot
+│   ├── scenes/
+│   │   └── main.tscn       # 主場景
+│   ├── scripts/
+│   │   ├── hex_util.gd     # 六角數學
+│   │   ├── tile_data.gd    # 板塊定義（class_name TileDefs）
+│   │   ├── board_state.gd  # 棋盤狀態
+│   │   ├── game_logic.gd   # 遊戲狀態機
+│   │   ├── hex_mesh.gd     # 六角柱 mesh 生成
+│   │   ├── board_view.gd   # 3D 棋盤渲染
+│   │   ├── ghost_preview.gd # 板塊預覽
+│   │   ├── orbit_camera.gd # 軌道攝影機
+│   │   ├── player_piece.gd # 龍伯棋子
+│   │   ├── hand_ui.gd      # 手牌 UI
+│   │   └── tile_card_preview.gd
+│   └── resources/
+├── game/                   # Phase 1 HTML5 Canvas 原型（已遷移）
+│   ├── index.html
+│   └── js/
+├── doc/
+│   ├── demo-design.md      # Demo 版規則與機制架構
+│   ├── references.md       # 神話學、地質學、桌遊文獻
+│   ├── tommy-proposal.md   # Tommy 遊戲機制提案
+│   └── game-rules-reference.md # Cthulhu DMD + Beacon Patrol 規則
+├── mcp/                    # BoardGameGeek MCP server
+│   └── bgg-server.mjs
+├── gen_map.py              # 地形圖產生器
+└── map.txt                 # 地形圖輸出
 ```
 
 ### 架構層次
 
 ```
-┌─────────────────────────────┐
-│   Terminal UI (遊戲畫面)      │
-├─────────────────────────────┤
-│   Game Engine (狀態管理)      │
-│   - 角色屬性 / 背包 / 地圖    │
-│   - 戰鬥系統 / 事件觸發       │
-├─────────────────────────────┤
-│   Claude API (文本生成)       │
-│   - System prompt: 武俠世界觀  │
-│   - 帶入 game state 作 context │
-│   - Streaming 逐字輸出        │
-└─────────────────────────────┘
+┌──────────────────────────────────────┐
+│       表現層 Presentation             │
+│  Godot 4 真 3D：六角柱 mesh、軌道     │
+│  攝影機、CanvasLayer 手牌 UI、HUD     │
+├──────────────────────────────────────┤
+│       規則層 Rules Engine             │
+│  hex_util / tile_data / board_state  │
+│  / game_logic — 純邏輯 GDScript      │
+│  ·六角座標 + 鄰居查詢                  │
+│  ·邊緣匹配（裂色萬用）                  │
+│  ·板塊放置驗證 + 龍伯移動               │
+├──────────────────────────────────────┤
+│       敘事層 Narrative（規劃中）        │
+│  Claude API + tool_use               │
+│  ·板塊探明時觸發 AI 敘事               │
+│  ·NPC 遭遇 + 天象描述                 │
+│  ·AI 詮釋不決定（不影響數值）           │
+├──────────────────────────────────────┤
+│       持久層 Persistence（規劃中）     │
+│  JSON 存檔/讀檔                       │
+└──────────────────────────────────────┘
 ```
 
-### Claude API 整合策略
+### Claude API 整合策略（規劃中）
 
-使用 `tool_use` 取得結構化回應。定義 `game_update` tool，讓 Claude 每次回應時同時回傳敘事文本和遊戲數據：
+使用 `tool_use` 取得結構化回應：
 
-```python
-game_update_tool = {
-    "name": "game_update",
-    "description": "更新遊戲狀態並推進劇情",
-    "input_schema": {
-        "properties": {
-            "narrative": "str          # 敘事文本",
-            "scene_type": "enum        # explore / combat / dialogue / event",
-            "choices": "list[str]      # 玩家可選行動 (2-4個)",
-            "stat_changes": "{hp, mp, exp}",
-            "items_gained": "list",
-            "items_lost": "list",
-            "new_skills": "list",
-            "location": "str",
-            "combat_log": "str | null"
-        }
+```json
+{
+  "name": "discovery_event",
+  "input_schema": {
+    "properties": {
+      "narrative":      { "type": "string", "description": "2~3 句發現敘事" },
+      "discovery_type": { "enum": ["clue", "supply", "lore", "anomaly"] },
+      "codex_entry":    { "type": "object", "nullable": true },
+      "mood":           { "enum": ["neutral", "ominous", "hopeful", "mysterious", "unsettling"] }
     }
+  }
 }
 ```
 
-### 資料模型
-
-```python
-class Player:
-    name, title, hp/max_hp, mp/max_mp,
-    attack, defense, agility, level, exp,
-    skills: list[Skill], inventory: list[Item], location
-
-class Skill:
-    name, damage, mp_cost, description
-
-class Item:
-    name, item_type (weapon/armor/consumable/quest), effect: dict
-
-class GameState:
-    player, turn, story_summary,
-    recent_events, current_scene,
-    npcs_met: dict[str, NpcRelation], flags: dict
-```
-
-### Context 管理
-
-- 每次請求帶入：system prompt + game state JSON + 最近 10 回合對話
-- 每 20 回合讓 AI 壓縮一次 `story_summary`
-- 每一層就是天然的「作用域」— 進入新層時舊層線索轉為壓縮摘要
-- **調查板**結構化管理線索（`active_threads` / `resolved` / `dormant`）
-
-### Token 成本控制
-
-| 玩家操作 | 送給 AI 的內容 | Token 消耗 |
-|---------|---------------|-----------|
-| 按選項數字 | `{"action": "action_id", "context_id": 42}` | 極少 |
-| 快捷指令如 `/查` | 本地查 game state，不呼叫 AI | 0 |
-| 自由輸入 | 完整自然語言給 AI 解析 | 較多 |
-
-### 遊戲引擎回合流程
-
-```
-1. 收集玩家輸入 (自由文字 or 選項編號)
-2. 組裝 prompt (system + game_state + history + player_action)
-3. 呼叫 Claude API (streaming)
-4. 解析 tool_use 回應 → 取得 narrative + state changes
-5. 套用 state changes 到 GameState
-6. 更新 UI (顯示敘事、更新狀態列)
-7. 自動存檔
-```
-
 ---
 
-## UI 方向
+## 開發
 
-### 介面佈局（三欄式 TUI）
-
-```
-┌──────────────────────────────────┬──────────────┐
-│                                  │  【角色資訊】  │
-│         故事/敘事面板              │  張三丰       │
-│      (ScrollableContainer)       │  HP: 80/100  │
-│                                  │  MP: 50/80   │
-│   你走進一座幽暗的竹林...          │  攻: 25      │
-│   遠處傳來劍鳴之聲...             │  防: 18      │
-│                                  │  敏: 22      │
-│                                  │──────────────│
-│                                  │  【武功】     │
-│                                  │  太極劍法     │
-│                                  │  太極拳       │
-│                                  │──────────────│
-│                                  │  【背包】     │
-│                                  │  金創藥 x3   │
-├──────────────────────────────────┤  九陽真經     │
-│  > 你想做什麼？                   │              │
-│  [輸入行動或選擇編號]              │              │
-└──────────────────────────────────┴──────────────┘
-```
-
-### 關鍵 UI 元件
-
-| 元件 | 說明 |
-|------|------|
-| `StoryPanel` | 可捲動的 RichLog，支援 streaming 逐字顯示 |
-| `StatusPanel` | 右側角色狀態，即時更新 |
-| `InputBar` | 底部輸入欄，支援自由輸入和選項模式切換 |
-
-### 選項交互
-
-```
-北邊茶館傳來低語。
-
-  [1] 進去聽
-  [2] 繞到後門偷看
-  [3] 先觀察周圍有沒有埋伏
-  [>] _______________
-```
-
-- 1、2、3 按一個鍵就行，零摩擦
-- `>` 永遠在，想打就打
-
-### 快捷鍵
-
-- `Ctrl+S` — 存檔
-- `Ctrl+Q` — 離開
-
-### 平台備註
-
-目前技術架構為 Terminal/TUI，未來可能考慮手機端。
-
----
-
-## 開發啟動
+### 啟動
 
 ```bash
-# 安裝
-cd codex-of-longbo
-pip install -e .
+# 用 Godot 編輯器開啟
+/Applications/Godot.app/Contents/MacOS/Godot --path godot/
 
-# 執行
-python -m wuxia
-
-# API Key 設定
-export ANTHROPIC_API_KEY="your-key-here"
-# 或首次啟動時互動輸入，儲存至 ~/.wuxia-game/config.json
+# 或直接執行（F5）
+/Applications/Godot.app/Contents/MacOS/Godot --path godot/ --quit-after 0
 ```
 
-### 驗證步驟
+### 操作
 
-1. 確認 TUI 正常渲染（故事面板、狀態列、輸入區）
-2. 輸入自由文字，確認 AI 回應正常 streaming 顯示
-3. 觸發戰鬥，確認切換為選項模式且數值正確更新
-4. 存檔後重啟，確認讀檔正常
+| 操作 | 按鍵 |
+|------|------|
+| 選手牌 | `1`–`7` 或點擊底部卡片 |
+| 旋轉板塊 | `R` |
+| 放置板塊 | 左鍵點擊棋盤 |
+| 行走 | 左鍵點擊相鄰格子（未選牌時） |
+| 旋轉攝影機 | 右鍵拖拽 |
+| 縮放 | 滾輪 |
+| 平移 | 中鍵拖拽 |
+| 取消選取 | `Esc` |
+
+### 驗證
+
+1. Godot 開啟無腳本錯誤
+2. F5 執行 → 看到 3D 六角柱棋盤（起始板塊 3 格）
+3. 選牌 → 旋轉 → hover 看到 ghost → 點擊放置
+4. 裂色萬用匹配生效
+5. 龍伯棋子自動移動 + 可自由行走到相鄰格
+
+---
+
+## 參考文獻
+
+詳見 `doc/references.md`（27+ 筆含摘要與連結），涵蓋：
+
+- 《列子·湯問》— 歸墟、龍伯、岱輿、員嶠等核心神話
+- 《山海經》— 禺強（玄冥）、蒼梧等地理
+- 板塊拼放機制 — Beacon Patrol、Carcassonne、Taluva
+- 考古與地質學 — 喀斯特地貌、Danxia 地形

@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://main_scene"]
+
+[ext_resource type="Script" path="res://scripts/game_logic.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/board_view.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/orbit_camera.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/ghost_preview.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/player_piece.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/hand_ui.gd" id="6"]
+
+[sub_resource type="Environment" id="Environment_001"]
+background_mode = 1
+background_color = Color(0.102, 0.102, 0.18, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.3, 0.4, 1)
+ambient_light_energy = 0.5
+tonemap_mode = 2
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_001")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 5, 10, 5)
+shadow_enabled = true
+light_energy = 1.2
+
+[node name="OrbitCamera" type="Camera3D" parent="."]
+script = ExtResource("3")
+
+[node name="BoardView" type="Node3D" parent="."]
+script = ExtResource("2")
+
+[node name="GhostPreview" type="Node3D" parent="BoardView"]
+script = ExtResource("4")
+
+[node name="PlayerPiece" type="Node3D" parent="."]
+script = ExtResource("5")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HandUI" type="Control" parent="UILayer"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("6")
+
+[node name="HUD" type="VBoxContainer" parent="UILayer"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 250.0
+offset_bottom = 120.0
+
+[node name="StepsLabel" type="Label" parent="UILayer/HUD"]
+text = "步數: 0"
+
+[node name="HandLabel" type="Label" parent="UILayer/HUD"]
+text = "手牌: 0"
+
+[node name="BoardLabel" type="Label" parent="UILayer/HUD"]
+text = "格數: 0"
+
+[node name="SelectedLabel" type="Label" parent="UILayer/HUD"]
+text = ""
+
+[node name="ControlsLabel" type="Label" parent="UILayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 120.0
+text = "R=旋轉  1~7=選牌
+左鍵=放置/行走
+右鍵拖拽=旋轉視角
+滾輪=縮放
+中鍵=平移  Esc=取消"

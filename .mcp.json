@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "bgg": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "mcp/bgg-server.mjs"
+      ],
+      "env": {}
+    }
+  }
+}
